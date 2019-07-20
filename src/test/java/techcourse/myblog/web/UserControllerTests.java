@@ -28,13 +28,8 @@ import static org.springframework.http.HttpMethod.*;
 import static techcourse.myblog.dto.UserDto.*;
 import static techcourse.myblog.web.UserController.*;
 
-@AutoConfigureWebTestClient
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
 class UserControllerTests extends ControllerTestTemplate {
-    @Autowired
-    WebTestClient webTestClient;
-
     @Autowired
     private UserRepository userRepository;
 
