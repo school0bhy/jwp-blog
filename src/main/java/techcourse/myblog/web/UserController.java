@@ -106,7 +106,6 @@ public class UserController {
         if (user == null) {
             return "redirect:/";
         }
-        model.addAttribute("user", user);
         return "mypage";
     }
 
@@ -116,7 +115,6 @@ public class UserController {
         if (user == null) {
             return "redirect:/";
         }
-        model.addAttribute("user", user);
         return "mypage-edit";
     }
 
@@ -129,7 +127,6 @@ public class UserController {
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
             return "mypage-edit";
         }
 
