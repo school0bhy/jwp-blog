@@ -23,6 +23,9 @@ import java.util.Optional;
 
 @Controller
 public class UserController {
+    public static final String DUPLICATED_USER_MESSAGE = "이미 존재하는 email입니다";
+    public static final String WRONG_EMAIL_MESSAGE = "이메일을 확인해주세요";
+    public static final String WRONG_PASSWORD_MESSAGE = "비밀번호를 확인해주세요";
     private final UserRepository userRepository;
 
     @Autowired
