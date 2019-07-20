@@ -35,14 +35,9 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String createSignupForm(HttpSession session,
-                                   Model model,
+    public String createSignupForm(Model model,
                                    UserDto userDto,
                                    BindingResult bindingResult) {
-        if (session.getAttribute("user") != null) {
-            return "redirect:/";
-        }
-
         List<ObjectError> errors = (List<ObjectError>) model.asMap().get("errors");
         if (errors != null) {
             errors.forEach(error -> bindingResult.addError(error));
@@ -51,13 +46,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public RedirectView createUser(HttpSession session,
-                                   @ModelAttribute("userDto") @Validated({Default.class, UserInfo.class}) UserDto userDto,
+    public RedirectView createUser(@ModelAttribute("userDto") @Validated({Default.class, UserInfo.class}) UserDto userDto,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes) {
-        if (session.getAttribute("user") != null) {
-            return new RedirectView("/");
-        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -79,12 +70,7 @@ public class UserController {
     @GetMapping("/login")
     public String createLoginForm(Model model,
                                   UserDto userDto,
-                                  HttpSession session,
                                   BindingResult bindingResult) {
-        if (session.getAttribute("user") != null) {
-            return "redirect:/";
-        }
-
         List<ObjectError> errors = (List<ObjectError>) model.asMap().get("errors");
         if (errors != null) {
             errors.forEach(error -> bindingResult.addError(error));
@@ -98,10 +84,6 @@ public class UserController {
                               @Validated(Default.class) UserDto userDto,
                               BindingResult bindingResult,
                               RedirectAttributes redirectAttributes) {
-        if (session.getAttribute("user") != null) {
-            return new RedirectView("/login");
-        }
-
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("userDto", userDto);
@@ -139,23 +121,14 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public String myPage(Model model, HttpSession session) {
-        Object user = session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
+    public String myPage() {
         return "mypage";
     }
 
     @GetMapping("/mypage/edit")
-    public String createMyPageForm(HttpSession session,
-                                   Model model,
+    public String createMyPageForm(Model model,
                                    UserDto userDto,
                                    BindingResult bindingResult) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/";
-        }
 
         List<ObjectError> errors = (List<ObjectError>) model.asMap().get("errors");
         if (errors != null) {
@@ -166,14 +139,11 @@ public class UserController {
     }
 
     @PutMapping("/mypage")
-    public RedirectView editUser(@Validated(UserInfo.class) UserDto userDto,
-                                 HttpSession session,
+    public RedirectView editUser(HttpSession session,
+                                 @Validated(UserInfo.class) UserDto userDto,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return new RedirectView("/");
-        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
